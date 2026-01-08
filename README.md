@@ -23,7 +23,9 @@ A drop-in, database-free comment system for **Kirby CMS 5+** with moderation, a 
 3. Click the article → approve / deny comments
 4. Approved comments appear on the frontend
 
-## 📦 Installation
+## 📦 Manual Installation
+
+Download Latest Release
 
 Copy the plugin folder to:
 `site/plugins/nomad-kirby-comments`
