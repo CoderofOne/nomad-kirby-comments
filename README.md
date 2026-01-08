@@ -1,4 +1,4 @@
-# Nomad Kirby Comments (v1.0.0)
+# Kirby Comments (v1.0.0)
 
 A drop-in, database-free comment system for **Kirby CMS 5+** with moderation, a pending-only inbox view in the Panel, email notifications, and spam protection.
 
