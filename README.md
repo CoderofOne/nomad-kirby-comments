@@ -84,8 +84,6 @@ In `site/config/config.php`:
 return [
   'nomad.kirby.comments.notify' => true,
   'nomad.kirby.comments.email'  => 'you@yourdomain.com',
-
-  // strongly recommended:
   'email' => [
     'from' => 'no-reply@yourdomain.com',
   ],
