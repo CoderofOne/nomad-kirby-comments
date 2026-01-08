@@ -35,7 +35,7 @@ Copy the plugin folder to:
 `site/plugins/nomad-kirby-comments`
 
 ## Panel: Article blueprint
-Add the comments field and the hidden pending flag to your **article blueprint** (`site/blueprints/pages/article.yml`):
+Add the comments field and the hidden pending flag to your **article blueprint** (`site/blueprints/pages/article.yml`) or whichever template you are using for article.
 
 ```yaml
 comments:
@@ -89,7 +89,7 @@ In your article list loop:
 Comments are stored in the article content file as a YAML structure field.
 
 ## Important
-All assumes you are using the template "article". If you use a different named template the "site tab" will not work unless you update the template name ("intendedTemplate","**article**") in the site.yml file under the query line.
+**Site Tab** assumes you are using the template "article". If you use a different named template the "site tab" will not work unless you update the template name ("intendedTemplate","**article**") in the site.yml file under the query line.
 
 ## License
 MIT
