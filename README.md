@@ -26,7 +26,7 @@ A drop-in, database-free comment system for **Kirby CMS 5+** with moderation, a 
 ## 📦 Installation
 
 Copy the plugin folder to:
-`site/plugins/kirby-comments`
+`site/plugins/nomad-kirby-comments`
 
 ## Install (Composer / Packagist)
 ```bash
