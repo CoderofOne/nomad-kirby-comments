@@ -16,6 +16,11 @@ A drop-in, database-free comment system for **Kirby CMS 5+** with moderation, a 
 ---
 
 ## 🧭 Moderation Workflow
+<img width="1485" height="711" alt="Image" src="https://github.com/user-attachments/assets/374a1f63-8742-4a4e-b5d7-f9c28bd4cb69" />
+
+<img width="1177" height="809" alt="Image" src="https://github.com/user-attachments/assets/c0fada5e-f063-4f34-9865-06b2ec0094ec" />
+
+<img width="1584" height="719" alt="Image" src="https://github.com/user-attachments/assets/926c127d-3490-4386-9a8a-ef4361f44caa" />
 
 1. Visitors submit comments → saved as **pending**
 2. Editors open **Site → Pending Comments**
