@@ -71,6 +71,8 @@ tabs:
 ```
 
 ## Frontend: Show comments + form
+<img width="381" height="317" alt="Image" src="https://github.com/user-attachments/assets/455a1e35-d28f-48cf-9420-7cb9a886413b" />
+
 In your article template:
 
 ```php
