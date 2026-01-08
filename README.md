@@ -2,11 +2,8 @@
 
 A drop-in, database-free comment system for **Kirby CMS 5+** with moderation, a pending-only inbox view in the Panel, email notifications, and spam protection.
 
-<img width="1554" height="696" alt="Image" src="https://github.com/user-attachments/assets/f5e252d1-de2d-434a-b192-0ba8910fa0ed" />
 
 ## ✨ Features
-<img width="1469" height="277" alt="Image" src="https://github.com/user-attachments/assets/76a9a3cb-8641-40e7-b9b4-5bad35062070" />
-
 - Frontend comment form (posts to the article URL)
 - Panel moderation (approve / deny / delete)
 - **Pending-only inbox** at the Site level
@@ -21,6 +18,8 @@ A drop-in, database-free comment system for **Kirby CMS 5+** with moderation, a 
 2. Editors open **Site → Pending Comments**
 3. Click the article → approve / deny comments
 4. Approved comments appear on the frontend
+
+<img width="100%" height="auto" alt="Image" src="https://github.com/user-attachments/assets/76a9a3cb-8641-40e7-b9b4-5bad35062070" />
 
 <img style="float:left;" width="500" height="auto" alt="Image" src="https://github.com/user-attachments/assets/374a1f63-8742-4a4e-b5d7-f9c28bd4cb69" />
 
