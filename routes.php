@@ -5,28 +5,23 @@ use Kirby\Data\Yaml;
 
 return [
   [
-    // Post to the article URL itself
     'pattern' => '(:all)',
     'method'  => 'POST',
     'action'  => function ($path) {
 
-      // Only handle comment submissions
       if (!get('comment_submit')) return false;
-
-      // CSRF protection
       if (!csrf(get('csrf_token'))) return false;
-
-      // Honeypot (spam protection)
       if (!empty(get('website'))) return false;
 
-      // Optional: very lightweight rate limit (per IP, 60s)
-      $ip = kirby()->request()->ip();
-      $cacheKey = 'nomad.kirby.comments.rate.' . md5((string)$ip);
+      // Rate limit (per IP, 60s)
+      $ip = $_SERVER['HTTP_CF_CONNECTING_IP']
+         ?? (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0]) : null)
+         ?? ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
 
+      $cacheKey = 'nomad.kirby.comments.rate.' . md5((string)$ip);
       $cache = kirby()->cache('nomad.kirby.comments');
-      if ($cache->get($cacheKey)) {
-        return false;
-      }
+
+      if ($cache->get($cacheKey)) return false;
       $cache->set($cacheKey, true, 60);
 
       $kirby = App::instance();
@@ -44,22 +39,19 @@ return [
       $comments = $page->comments()->toStructure()->toArray();
       $comments[] = $comment;
 
-      // Kirby 5 requires elevated permissions for frontend updates
       $kirby->impersonate('kirby');
       $page->update(['comments' => Yaml::encode($comments)]);
       $kirby->impersonate(null);
 
       // Email notification (optional)
       if (option('nomad.kirby.comments.notify') && option('nomad.kirby.comments.email')) {
+        $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
+
         kirby()->email([
           'to'      => option('nomad.kirby.comments.email'),
-          'from'    => 'no-reply@' . server()->host(),
+          'from'    => option('email.from', 'no-reply@' . $host),
           'subject' => 'New comment pending approval',
-          'body'    => "Article: {$page->title()}
-
-From: {$comment['author']} ({$comment['email']})
-
-{$comment['text']}"
+          'body'    => "Article: {$page->title()}\n\nFrom: {$comment['author']} ({$comment['email']})\n\n{$comment['text']}"
         ]);
       }
 
