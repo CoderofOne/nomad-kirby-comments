@@ -38,8 +38,6 @@ comments:
   extends: fields/comments
 ```
 
-> `hasPendingComments` is automatically maintained by the plugin and is used for the pending-only inbox filter.
-
 ## Panel: Pending-only inbox (Site tab)
 Add this tab to your `site/blueprints/site.yml`:
 
