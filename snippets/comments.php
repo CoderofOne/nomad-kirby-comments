@@ -1,6 +1,6 @@
 <section id="comments">
 
-  <h2>Comments</h2>
+  <h2 id="comment_header">Comments</h2>
 
   <?php
   $comments = $page->comments()
