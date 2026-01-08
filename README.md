@@ -93,6 +93,7 @@ _**Important**_
 
 ## Storage
 Comments are stored in the article content txt file as a YAML structure field.
+
 <img width="400" height="auto" alt="Image" src="https://github.com/user-attachments/assets/4852362e-17b0-4211-a024-ca2d4f43d11f" />
 
 ## License
