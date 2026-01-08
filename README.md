@@ -12,8 +12,6 @@ A drop-in, database-free comment system for **Kirby CMS 5+** with moderation, a 
 - CSRF protection
 - Optional email notifications
 - Git-friendly content storage (no database)
-- Composer / Packagist support
-
 ---
 
 ## 🧭 Moderation Workflow
