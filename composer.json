@@ -1,0 +1,20 @@
+{
+  "name": "nomad/kirby-comments",
+  "description": "A drop-in, database-free comment system for Kirby CMS 5+ with moderation, pending inbox, notifications, and spam protection.",
+  "type": "kirby-plugin",
+  "license": "MIT",
+  "keywords": [
+    "kirby",
+    "kirby-plugin",
+    "comments",
+    "moderation",
+    "spam-protection"
+  ],
+  "require": {
+    "php": ">=8.1",
+    "getkirby/composer-installer": "^1.2"
+  },
+  "extra": {
+    "installer-name": "kirby-comments"
+  }
+}
