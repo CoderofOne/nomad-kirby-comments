@@ -65,7 +65,7 @@ tabs:
 
 ```
 _**Important**_
-**Site Tab** assumes you are using the template "article". If you use a different named template the "site tab" will not work unless you update the template name ("intendedTemplate","**article**") in the site.yml file under the query line.
+- **Site Tab** assumes you are using the template "article". If you use a different named template the "site tab" will not work unless you update the template name ("intendedTemplate","**article**") in the site.yml file under the query line.
 
 ## Frontend: Show comments + form
 <img style="float:left;" width="500" height="auto" alt="Image" src="https://github.com/user-attachments/assets/d4275d95-9a07-4d17-ba71-82c470210b45" />
@@ -87,7 +87,7 @@ In your article list loop:
 <?php snippet('comment-meta', ['page' => $article]) ?>
 ```
 _**Important**_
-This snippet assumes you are using the page "article", if you are using a different page name update the $article variable to match page name. (i.e $post)
+- This snippet assumes you are using the page "article", if you are using a different page name update the $article variable to match page name. (i.e $post)
 
 ## Storage
 Comments are stored in the article content file as a YAML structure field.
