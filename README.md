@@ -36,9 +36,6 @@ Add the comments field and the hidden pending flag to your **article blueprint**
 ```yaml
 comments:
   extends: fields/comments
-
-hasPendingComments:
-  type: hidden
 ```
 
 > `hasPendingComments` is automatically maintained by the plugin and is used for the pending-only inbox filter.
@@ -56,15 +53,14 @@ tabs:
         type: pages
         headline: Pending Comments
         layout: table
-        query: site.index.filterBy("intendedTemplate", "article").filterBy("hasPendingComments", "true")
-        info: >
-          {{ page.pendingCommentsCount }} pending ·
-          {{ page.approvedCommentsCount }} approved
+        query: site.index.filterBy("intendedTemplate","article").filterBy("comments","*=","pending")
+        info: "{{ page.pendingCommentsCount }} pending · {{ page.approvedCommentsCount }} approved"
         limit: 50
         create: false
         sortable: false
         duplicate: false
         status: false
+
 ```
 
 ## Frontend: Show comments + form
