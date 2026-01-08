@@ -1,8 +1,9 @@
 <?php
 
+use Kirby\Data\Yaml;
+
 Kirby::plugin('nomad/kirby-comments', [
 
-  // Convenience methods for Panel blueprints/snippets
   'pageMethods' => [
     'approvedCommentsCount' => function () {
       return $this->comments()->toStructure()->filterBy('status', 'approved')->count();
@@ -12,22 +13,33 @@ Kirby::plugin('nomad/kirby-comments', [
     },
   ],
 
-  // Keep a queryable field in sync so Panel blueprints can filter "pending only"
   'hooks' => [
-    'page.update:after' => function ($newPage, $oldPage) {
-      if ($newPage->intendedTemplate()->name() !== 'article') return;
-      if (!$newPage->content()->has('comments')) return;
+    // ✅ compute flag *before* save so it's part of the same update transaction
+    'page.update:before' => function ($page, $values, $strings) {
 
-      $pending = $newPage->comments()->toStructure()->filterBy('status', 'pending')->count();
-      $flag = $pending > 0 ? 'true' : 'false';
+      // Only for article pages
+      if ($page->intendedTemplate()->name() !== 'article') {
+        return $values;
+      }
 
-      $current = $newPage->content()->get('hasPendingComments')->value();
-      if ($current === $flag) return;
+      // Only if comments field exists (or is being written)
+      $commentsRaw = $values['comments'] ?? $page->comments()->value();
+      if ($commentsRaw === null) {
+        return $values;
+      }
 
-      kirby()->impersonate('kirby');
-      $newPage->update(['hasPendingComments' => $flag]);
-      kirby()->impersonate(null);
-    },
+      // Parse YAML comments into array
+      $decoded = is_array($commentsRaw) ? $commentsRaw : (Yaml::decode($commentsRaw) ?? []);
+      $pending = 0;
+
+      foreach ($decoded as $c) {
+        if (($c['status'] ?? '') === 'pending') $pending++;
+      }
+
+      $values['hasPendingComments'] = $pending > 0 ? 'true' : 'false';
+
+      return $values;
+    }
   ],
 
   'routes' => require __DIR__ . '/routes.php',
