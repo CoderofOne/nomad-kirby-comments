@@ -2,6 +2,7 @@
 
 use Kirby\Cms\App;
 use Kirby\Data\Yaml;
+use Kirby\Toolkit\V;
 
 return [
   [
@@ -13,25 +14,60 @@ return [
       if (!csrf(get('csrf_token'))) return false;
       if (!empty(get('website'))) return false;
 
-      // Rate limit (per IP, 60s)
-      $ip = $_SERVER['HTTP_CF_CONNECTING_IP']
-         ?? (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0]) : null)
-         ?? ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+      // Collect data
+      $data = [
+        'author' => trim(get('author')),
+        'email'  => trim(get('email')),
+        'text'   => trim(get('text')),
+      ];
 
-      $cacheKey = 'nomad.kirby.comments.rate.' . md5((string)$ip);
-      $cache = kirby()->cache('nomad.kirby.comments');
+      // Validate
+      $rules = [
+        'author' => ['required', 'minLength' => 2],
+        'email'  => ['required', 'email'],
+        'text'   => ['required', 'minLength' => 5],
+      ];
 
-      if ($cache->get($cacheKey)) return false;
-      $cache->set($cacheKey, true, 60);
+      $messages = [
+        'author' => 'Please enter your name (at least 2 characters).',
+        'email'  => 'Please enter a valid email address.',
+        'text'   => 'Your comment must be at least 5 characters long.',
+      ];
+
+      $errors = [];
+
+      foreach ($rules as $field => $fieldRules) {
+        foreach ($fieldRules as $rule => $value) {
+          if (is_int($rule)) {
+            if (!V::$value($data[$field])) {
+              $errors[$field] = $messages[$field];
+            }
+          } else {
+            if (!V::$rule($data[$field], $value)) {
+              $errors[$field] = $messages[$field];
+            }
+          }
+        }
+      }
+
+      // If validation fails → redirect back with errors + old input
+      if (!empty($errors)) {
+        return go($path . '?' . http_build_query([
+          'commentError' => 1,
+          'errors' => $errors,
+          'old' => $data
+        ]));
+      }
 
       $kirby = App::instance();
       $page  = page($path);
       if (!$page) return false;
 
+      // Save comment
       $comment = [
-        'author' => esc(get('author')),
-        'email'  => esc(get('email')),
-        'text'   => esc(get('text')),
+        'author' => esc($data['author']),
+        'email'  => esc($data['email']),
+        'text'   => esc($data['text']),
         'status' => 'pending',
         'date'   => date('Y-m-d H:i:s'),
       ];
@@ -42,18 +78,6 @@ return [
       $kirby->impersonate('kirby');
       $page->update(['comments' => Yaml::encode($comments)]);
       $kirby->impersonate(null);
-
-      // Email notification (optional)
-      if (option('nomad.kirby.comments.notify') && option('nomad.kirby.comments.email')) {
-        $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
-
-        kirby()->email([
-          'to'      => option('nomad.kirby.comments.email'),
-          'from'    => option('email.from', 'no-reply@' . $host),
-          'subject' => 'New comment pending approval',
-          'body'    => "Article: {$page->title()}\n\nFrom: {$comment['author']} ({$comment['email']})\n\n{$comment['text']}"
-        ]);
-      }
 
       go($page->url() . '#comments');
     }
