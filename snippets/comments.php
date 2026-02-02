@@ -1,6 +1,7 @@
 <section id="comments">
-
-  <h2 id="comment_header">Comments</h2>
+  <h2 id="comment_header">
+    Comments
+  </h2>
 
   <?php
   $comments = $page->comments()
@@ -12,31 +13,94 @@
   <?php if ($comments->count()): ?>
     <ul id="comment_list">
       <?php foreach ($comments as $comment): ?>
-        <li class="comment">
-          <strong><?= esc($comment->author()) ?></strong>
-          <small><?= $comment->date()->toDate('M d, Y') ?></small>
-          <p><?= esc($comment->text()) ?></p>
+        <li class="comment>
+          <div>
+            <div>
+              <strong>
+                <?= esc($comment->author()) ?>
+              </strong>
+
+              <small>
+                <?= $comment->date()->toDate('M d, Y') ?>
+              </small>
+            </div>
+
+            <p>
+              <?= esc($comment->text()) ?>
+            </p>
+          </div>
         </li>
       <?php endforeach ?>
     </ul>
   <?php else: ?>
-    <p id="comment_none">No comments yet.</p>
+    <p id="comment_none">
+      No comments yet.
+    </p>
   <?php endif ?>
 
-  <h3 id="leave_comment_header">Leave a comment</h3>
+  <h3 id="leave_comment_header">
+    Leave a comment
+  </h3>
 
-  <form id="comment_form" method="post" action="<?= $page->url() ?>">
+
+  <?php
+    $errors = get('errors', []);
+    $old    = get('old', []);
+  ?>
+
+  <?php if (!empty($errors)): ?>
+    <div class="comment-errors">
+      <ul>
+        <?php foreach ($errors as $error): ?>
+          <li><?= esc($error) ?></li>
+        <?php endforeach ?>
+      </ul>
+    </div>
+  <?php endif ?>
+
+
+  <form
+    id="comment_form"
+    method="post"
+    action="<?= $page->url() ?>"
+  >
     <input type="hidden" name="csrf_token" value="<?= csrf() ?>">
     <input type="hidden" name="comment_submit" value="1">
 
     <!-- Honeypot (spam bots fill this; humans never see it) -->
-    <input type="text" name="website" tabindex="-1" autocomplete="off" style="display:none">
+    <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden">
 
-    <input name="author" required placeholder="Name">
-    <input name="email" type="email" required placeholder="Email">
-    <textarea name="text" required placeholder="Comment"></textarea>
+    <div>
+      <input
+        name="author"
+        required
+        placeholder="Name"
+        value="<?= esc($old['author'] ?? '') ?>"
+      >
 
-    <button type="submit">Post Comment</button>
+      <input
+        name="email"
+        type="email"
+        required
+        placeholder="Email"
+        value="<?= esc($old['email'] ?? '') ?>"
+      >
+
+      <textarea
+        name="text"
+        required
+        placeholder="Comment"
+        rows="5"
+      ><?= esc($old['text'] ?? '') ?></textarea>
+    </div>
+
+    <div>
+      <small>
+        Comments will be reviewed before publishing.
+      </small>
+      <div>
+        <input type="submit" value="Post Comment">
+      </div>
+    </div>
   </form>
-
 </section>
