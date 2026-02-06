@@ -1,4 +1,4 @@
-<img width="3780" height="3780" alt="Image" src="https://github.com/user-attachments/assets/6bc97f51-c4d6-470b-bea5-837bef80d0e5" />
+<img width="1500" height="1500" alt="Image" src="https://github.com/user-attachments/assets/6bc97f51-c4d6-470b-bea5-837bef80d0e5" />
 
 # Kirby Comments (v1.0.0)
 
@@ -11,6 +11,7 @@ A drop-in, database-free comment system for **Kirby CMS 5+** with moderation, a 
 - **Pending-only inbox** at the Site level
 - Approved / pending comment counts
 - Create new comments or edit existing
+- Add a reply to comment
 - Spam protection (honeypot + rate limiting)
 - CSRF protection
 - Server-side validation
