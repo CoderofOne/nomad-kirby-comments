@@ -33,7 +33,7 @@ A drop-in, database-free comment system for **Kirby CMS 5+** with moderation, re
 
 ## 📦 Manual Installation
 
-Download Latest Release Zip File
+Download nomad-kirby-comments.zip
 
 Unzip file
 
