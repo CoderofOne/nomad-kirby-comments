@@ -1,6 +1,7 @@
 type: structure
 label: Comments
 sortable: false
+
 columns:
   author:
     width: 1/4
@@ -8,16 +9,26 @@ columns:
     width: 1/6
   date:
     width: 1/6
+
 fields:
   author:
     type: text
     label: Name
+
   email:
     type: email
     label: Email
+
   text:
     type: textarea
     label: Comment
+
+  reply:
+    type: textarea
+    label: Reply (admin)
+    size: small
+    help: Optional public reply shown under the comment.
+
   status:
     type: select
     label: Status
@@ -32,6 +43,7 @@ fields:
       denied:
         text: Denied
         theme: negative
+
   date:
     type: date
     time: true
